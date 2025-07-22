@@ -1,0 +1,169 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 30 40% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 30 40% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 30 40% 15%;
+    --primary: 25 76% 31%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 60 56% 91%;
+    --secondary-foreground: 30 40% 15%;
+    --muted: 60 56% 91%;
+    --muted-foreground: 30 20% 45%;
+    --accent: 39 77% 83%;
+    --accent-foreground: 30 40% 15%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 39 77% 88%;
+    --input: 39 77% 88%;
+    --ring: 25 76% 31%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 30 40% 15%;
+    --foreground: 0 0% 100%;
+    --card: 30 40% 15%;
+    --card-foreground: 0 0% 100%;
+    --popover: 30 40% 15%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 25 76% 31%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 30 20% 25%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 30 20% 25%;
+    --muted-foreground: 30 10% 65%;
+    --accent: 30 20% 25%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 30 20% 25%;
+    --input: 30 20% 25%;
+    --ring: 25 76% 31%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .hover-lift {
+    @apply transition-all duration-200 hover:shadow-lg hover:-translate-y-1;
+  }
+
+  .gradient-brown {
+    @apply bg-gradient-to-r from-brown-600 to-brown-700;
+  }
+
+  .text-gradient-brown {
+    @apply bg-gradient-to-r from-brown-700 to-brown-600 bg-clip-text text-transparent;
+  }
+
+  .bg-warm {
+    @apply bg-gradient-to-br from-beige-50 via-white to-tan-50;
+  }
+}
+
+/* Animations personnalisées */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.animate-slideIn {
+  animation: slideIn 0.6s ease-out;
+}
+
+/* Styles pour les composants shadcn/ui avec thème marron */
+.bg-primary {
+  background-color: #8b4513;
+}
+
+.text-primary {
+  color: #8b4513;
+}
+
+.border-primary {
+  border-color: #8b4513;
+}
+
+/* Styles pour les couleurs marron/beige */
+.text-brown-gradient {
+  background: linear-gradient(135deg, #8b4513, #a0522d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-brown-gradient {
+  background: linear-gradient(135deg, #8b4513, #a0522d);
+}
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f5dc;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8b4513;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a0522d;
+}
+
+/* Styles spéciaux pour les cartes */
+.card-warm {
+  @apply bg-white border-beige-200 shadow-sm;
+}
+
+.card-warm:hover {
+  @apply shadow-md border-brown-200;
+}
+
+/* Boutons avec style marron */
+.btn-brown {
+  @apply bg-brown-700 hover:bg-brown-800 text-white;
+}
+
+.btn-beige {
+  @apply bg-beige-400 hover:bg-beige-500 text-brown-800;
+}

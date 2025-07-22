@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - Système de Gestion des Notes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 10px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .section {
+            background: white;
+            margin-bottom: 30px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .section h3 {
+            color: #555;
+            margin: 20px 0 10px 0;
+            font-size: 1.3rem;
+        }
+        
+        .endpoint {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .method {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-right: 10px;
+        }
+        
+        .method.get { background: #28a745; color: white; }
+        .method.post { background: #007bff; color: white; }
+        .method.put { background: #ffc107; color: black; }
+        .method.delete { background: #dc3545; color: white; }
+        
+        .code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            margin: 15px 0;
+        }
+        
+        .response-example {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .auth-info {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .nav {
+            position: sticky;
+            top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .nav ul {
+            list-style: none;
+        }
+        
+        .nav li {
+            margin: 10px 0;
+        }
+        
+        .nav a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .nav a:hover {
+            text-decoration: underline;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>API Documentation</h1>
+            <p>Système de Gestion des Notes - Version 1.0.0</p>
+        </div>
+        
+        <div class="grid">
+            <nav class="nav">
+                <ul>
+                    <li><a href="#introduction">Introduction</a></li>
+                    <li><a href="#authentication">Authentification</a></li>
+                    <li><a href="#students">Étudiants</a></li>
+                    <li><a href="#grades">Notes</a></li>
+                    <li><a href="#formations">Formations</a></li>
+                    <li><a href="#statistics">Statistiques</a></li>
+                    <li><a href="#errors">Gestion d'erreurs</a></li>
+                    <li><a href="#rate-limiting">Rate Limiting</a></li>
+                </ul>
+            </nav>
+            
+            <main>
+                <section id="introduction" class="section">
+                    <h2>Introduction</h2>
+                    <p>Cette API REST permet d'interagir avec le système de gestion des notes. Elle offre des endpoints pour gérer les étudiants, leurs notes, les formations et obtenir des statistiques.</p>
+                    
+                    <h3>URL de base</h3>
+                    <div class="code">https://votre-domaine.com/api/v1</div>
+                    
+                    <h3>Format des réponses</h3>
+                    <p>Toutes les réponses sont au format JSON avec la structure suivante :</p>
+                    
+                    <div class="response-example">
+                        <strong>Succès :</strong>
+                        <div class="code">{
+  "success": true,
+  "data": { ... },
+  "timestamp": "2024-01-01T12:00:00Z"
+}</div>
+                    </div>
+                    
+                    <div class="response-example">
+                        <strong>Erreur :</strong>
+                        <div class="code">{
+  "success": false,
+  "error": {
+    "code": 400,
+    "message": "Message d'erreur",
+    "details": "Détails optionnels"
+  },
+  "timestamp": "2024-01-01T12:00:00Z"
+}</div>
+                    </div>
+                </section>
+                
+                <section id="authentication" class="section">
+                    <h2>Authentification</h2>
+                    <p>L'API utilise l'authentification JWT (JSON Web Token). Vous devez inclure le token dans l'en-tête Authorization de vos requêtes.</p>
+                    
+                    <div class="auth-info">
+                        <strong>En-tête requis :</strong> Authorization: Bearer {votre_token}
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <strong>/auth/login</strong>
+                        <p>Connexion et obtention du token JWT</p>
+                        
+                        <div class="code">{
+  "login": "admin@school.com",
+  "password": "password"
+}</div>
+                        
+                        <div class="response-example">
+                            <strong>Réponse :</strong>
+                            <div class="code">{
+  "success": true,
+  "data": {
+    "user": {
+      "id": 1,
+      "email": "admin@school.com",
+      "role": "admin"
+    },
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+    "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+    "expires_in": 3600
+  }
+}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <strong>/auth/refresh</strong>
+                        <p>Renouvellement du token avec le refresh token</p>
+                        
+                        <div class="code">{
+  "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+}</div>
+                    </div>
+                </section>
+                
+                <section id="students" class="section">
+                    <h2>Étudiants</h2>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <strong>/students</strong>
+                        <p>Liste des étudiants avec pagination</p>
+                        
+                        <h4>Paramètres de requête :</h4>
+                        <ul>
+                            <li><code>page</code> : Numéro de page (défaut: 1)</li>
+                            <li><code>limit</code> : Nombre d'éléments par page (défaut: 20, max: 100)</li>
+                            <li><code>search</code> : Recherche par nom/prénom</li>
+                        </ul>
+                        
+                        <div class="code">GET /students?page=1&limit=10&search=dupont</div>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <strong>/students/{matricule}</strong>
+                        <p>Détails d'un étudiant spécifique</p>
+                        
+                        <div class="code">GET /students/ETU001</div>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <strong>/students</strong>
+                        <p>Créer un nouvel étudiant (admin uniquement)</p>
+                        
+                        <div class="code">{
+  "matricule": "ETU004",
+  "nom": "Dupont",
+  "prenom": "Jean",
+  "email": "jean.dupont@email.com",
+  "adresse": "123 Rue de la Paix",
+  "telephone": "0123456789",
+  "formation_id": 1,
+  "password": "motdepasse123"
+}</div>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method put">PUT</span>
+                        <strong>/students/{matricule}</strong>
+                        <p>Modifier un étudiant (admin uniquement)</p>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method delete">DELETE</span>
+                        <strong>/students/{matricule}</strong>
+                        <p>Supprimer un étudiant (admin uniquement)</p>
+                    </div>
+                </section>
+                
+                <section id="grades" class="section">
+                    <h2>Notes</h2>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <strong>/students/{matricule}/grades</strong>
+                        <p>Notes d'un étudiant spécifique</p>
+                        
+                        <div class="code">GET /students/ETU001/grades</div>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <strong>/grades</strong>
+                        <p>Toutes les notes avec pagination</p>
+                        
+                        <h4>Paramètres de requête :</h4>
+                        <ul>
+                            <li><code>page</code> : Numéro de page</li>
+                            <li><code>limit</code> : Nombre d'éléments par page</li>
+                            <li><code>matricule</code> : Filtrer par matricule</li>
+                            <li><code>matiere</code> : Filtrer par matière</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <strong>/grades</strong>
+                        <p>Créer une nouvelle note (admin uniquement)</p>
+                        
+                        <div class="code">{
+  "matricule": "ETU001",
+  "matiere_code": "MATH101",
+  "note": 15.5
+}</div>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method put">PUT</span>
+                        <strong>/grades/{id}</strong>
+                        <p>Modifier une note (admin uniquement)</p>
+                        
+                        <div class="code">{
+  "note": 16.0
+}</div>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method delete">DELETE</span>
+                        <strong>/grades/{id}</strong>
+                        <p>Supprimer une note (admin uniquement)</p>
+                    </div>
+                </section>
+                
+                <section id="formations" class="section">
+                    <h2>Formations</h2>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <strong>/formations</strong>
+                        <p>Liste de toutes les formations</p>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <strong>/formations</strong>
+                        <p>Créer une nouvelle formation (admin uniquement)</p>
+                        
+                        <div class="code">{
+  "libelle": "Master en Informatique"
+}</div>
+                    </div>
+                </section>
+                
+                <section id="statistics" class="section">
+                    <h2>Statistiques</h2>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <strong>/stats/overview</strong>
+                        <p>Statistiques générales du système</p>
+                        
+                        <div class="response-example">
+                            <strong>Réponse :</strong>
+                            <div class="code">{
+  "students_count": 150,
+  "formations_count": 5,
+  "grades_count": 1200,
+  "average_grade": 13.2,
+  "success_rate": 78.5
+}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <strong>/stats/students/{matricule}</strong>
+                        <p>Statistiques d'un étudiant spécifique</p>
+                    </div>
+                </section>
+                
+                <section id="errors" class="section">
+                    <h2>Gestion d'erreurs</h2>
+                    
+                    <h3>Codes d'erreur HTTP</h3>
+                    <ul>
+                        <li><strong>400</strong> - Requête invalide (données manquantes ou incorrectes)</li>
+                        <li><strong>401</strong> - Non authentifié (token manquant ou invalide)</li>
+                        <li><strong>403</strong> - Accès interdit (permissions insuffisantes)</li>
+                        <li><strong>404</strong> - Ressource non trouvée</li>
+                        <li><strong>409</strong> - Conflit (ressource déjà existante)</li>
+                        <li><strong>429</strong> - Trop de requêtes (rate limiting)</li>
+                        <li><strong>500</strong> - Erreur interne du serveur</li>
+                    </ul>
+                </section>
+                
+                <section id="rate-limiting" class="section">
+                    <h2>Rate Limiting</h2>
+                    <p>L'API limite le nombre de requêtes à <strong>100 requêtes par heure par adresse IP</strong>.</p>
+                    
+                    <p>Lorsque la limite est atteinte, l'API retourne une erreur 429 avec le message :</p>
+                    <div class="code">{
+  "success": false,
+  "error": {
+    "code": 429,
+    "message": "Limite de requêtes dépassée. Essayez plus tard."
+  }
+}</div>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
