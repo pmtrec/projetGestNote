@@ -13,7 +13,7 @@
     
     <nav class="navbar">
         <div class="navbar-content">
-            <div class="navbar-brand">🚀 EduGrades Admin</div>
+            <div class="navbar-brand">🚀 PAGE Admin</div>
             <div class="navbar-nav">
                 <a href="/admin/dashboard" class="nav-link">📊 Dashboard</a>
                 <a href="/admin/students" class="nav-link">👥 Étudiants</a>

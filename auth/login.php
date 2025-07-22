@@ -14,7 +14,7 @@
     <div class="login-container">
         <div class="login-card">
             <div class="login-header">
-                <h1>🚀 EduGrades</h1>
+                <h1>🚀 SYMEME DSTION DE NOTES</h1>
                 <p>Système de Gestion Futuriste des Notes Étudiantes</p>
             </div>
 
